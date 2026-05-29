@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Magical Sweet Seventeen Celebration</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display for Elegance, Inter for Content, Great Vibes for Script -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            100: '#FDFBF7',
+                            200: '#F9F1E2',
+                            300: '#EED9B3',
+                            400: '#E4C28A',
+                            500: '#D4AF37', // Metallic Gold
+                            600: '#AA8226',
+                        },
+                        rosegold: {
+                            100: '#FFF0F2',
+                            200: '#FFD3D9',
+                            300: '#F3A6B4',
+                            400: '#E07A8F',
+                            500: '#B76E79', // Rose Gold
+                            600: '#8C4D56',
+                        },
+                        royal: {
+                            900: '#140816', // Deep Plum/Dark Violet
+                            950: '#0B030D',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        script: ['Great Vibes', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0B030D;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Effect */
+        .glass {
+            background: rgba(20, 8, 22, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(224, 122, 143, 0.15);
+        }
+
+        .glass-gold {
+            background: rgba(249, 241, 226, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* Custom Keyframes for Animations */
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes pulsingGlow {
+            0%, 100% { opacity: 0.6; box-shadow: 0 0 15px rgba(224, 122, 143, 0.2); }
+            50% { opacity: 1; box-shadow: 0 0 30px rgba(224, 122, 143, 0.5); }
+        }
+
+        @keyframes envelopeOpen {
+            0% { transform: rotateX(0deg); }
+            100% { transform: rotateX(180deg); z-index: 10; }
+        }
+
+        @keyframes paperSlideUp {
+            0% { transform: translateY(0) scale(0.95); opacity: 0; }
+            100% { transform: translateY(-70px) scale(1.05); opacity: 1; z-index: 20; }
+        }
+
+        .animate-float {
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        .animate-glow {
+            animation: pulsingGlow 3s ease-in-out infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B030D;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #B76E79;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E07A8F;
+        }
+
+        /* Candle Flame Flickering Animation */
+        @keyframes flicker {
+            0%, 100% { transform: scale(1) rotate(-1deg); filter: drop-shadow(0 0 4px #F1C40F); }
+            20% { transform: scale(0.9) rotate(2deg); filter: drop-shadow(0 0 8px #E67E22); }
+            40% { transform: scale(1.1) rotate(-3deg); filter: drop-shadow(0 0 10px #F1C40F); }
+            60% { transform: scale(0.95) rotate(1deg); filter: drop-shadow(0 0 6px #F39C12); }
+            80% { transform: scale(1.05) rotate(-1deg); filter: drop-shadow(0 0 12px #F1C40F); }
+        }
+
+        .flame {
+            animation: flicker 1.2s infinite ease-in-out alternate;
+            transform-origin: bottom center;
+        }
+    </style>
+</head>
+<body class="text-rose-100 min-h-screen relative flex flex-col items-center justify-between">
+
+    <!-- Background Canvas for magical particles -->
+    <canvas id="particleCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-80"></canvas>
+
+    <!-- Global Floating Elements -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute top-[15%] left-[10%] w-72 h-72 bg-rosegold-500 rounded-full mix-blend-screen filter blur-[120px] opacity-20 animate-float" style="animation-delay: 0s;"></div>
+        <div class="absolute bottom-[20%] right-[10%] w-80 h-80 bg-gold-400 rounded-full mix-blend-screen filter blur-[150px] opacity-15 animate-float" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Audio controls overlay -->
+    <div id="audioControls" class="fixed top-4 right-4 z-50 hidden transition-opacity duration-500">
+        <button id="toggleMusicBtn" class="glass-gold p-3 rounded-full flex items-center justify-center text-gold-400 hover:text-gold-300 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-black/40">
+            <i id="musicIcon" class="fas fa-volume-up text-lg"></i>
+            <span class="text-xs font-semibold ml-2 uppercase tracking-widest hidden md:inline">Playing Theme</span>
+        </button>
+    </div>
+
+    <!-- Screen 1: The Magic Invitation Envelope -->
+    <section id="envelopeScreen" class="fixed inset-0 z-40 flex flex-col items-center justify-center p-4 bg-royal-950 transition-all duration-1000">
+        <div class="text-center mb-8 max-w-lg z-10 px-4">
+            <span class="text-gold-400 tracking-[0.2em] font-medium text-xs md:text-sm uppercase block mb-3">You are invited to</span>
+            <h1 class="font-serif text-3xl md:text-5xl text-rosegold-200 font-bold mb-3 tracking-wide drop-shadow-lg">A Sweet Transformation</h1>
+            <p class="font-sans text-rose-200/80 text-sm md:text-base leading-relaxed">Ketuk surat ajaib di bawah ini untuk membuka rahasia indahnya dunia baru usia 17 tahun.</p>
+        </div>
+
+        <!-- 3D Envelope Design -->
+        <div class="relative w-[320px] h-[240px] md:w-[420px] md:h-[300px] cursor-pointer group z-10 select-none" id="envelopeContainer" onclick="openEnvelope()">
+            <!-- Shadow under envelope -->
+            <div class="absolute -bottom-6 inset-x-4 h-6 bg-black/40 rounded-full filter blur-xl transition-transform group-hover:scale-95 duration-500"></div>
+            
+            <!-- Envelope Body -->
+            <div class="absolute inset-0 bg-[#341120] rounded-2xl border border-rosegold-400/20 shadow-2xl overflow-hidden flex items-center justify-center">
+                
+                <!-- Inner Letter Paper (hidden at first, slides up) -->
+                <div id="innerLetter" class="absolute inset-x-6 top-6 bottom-6 bg-[#FCF6EB] text-royal-900 rounded-xl p-5 shadow-inner transition-all duration-1000 transform flex flex-col justify-between opacity-0">
+                    <div class="text-center font-serif">
+                        <span class="text-[10px] text-rosegold-500 tracking-widest uppercase block mb-1">Happy 17th Birthday</span>
+                        <h3 class="font-script text-3xl md:text-4xl text-rosegold-600 my-1">Beautiful Princess</h3>
+                        <div class="w-12 h-[1px] bg-rosegold-300 mx-auto my-2"></div>
+                        <p class="font-sans text-xs md:text-sm text-gray-700 italic leading-relaxed px-2">
+                            "Mekar laksana mawar yang paling indah, melangkah gagah menyambut kedewasaan yang penuh petualangan ajaib."
+                        </p>
+                    </div>
+                    <div class="text-center mt-3">
+                        <span class="inline-block bg-rosegold-500 text-white font-semibold font-sans text-xs px-5 py-2 rounded-full tracking-wider hover:bg-rosegold-600 transition-colors shadow">MASUK & RAYAKAN</span>
+                    </div>
+                </div>
+
+                <!-- Diagonal flaps look using SVG overlay -->
+                <svg class="absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-700" id="envelopeFlaps" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 80" preserveAspectRatio="none">
+                    <!-- Left flap -->
+                    <path d="M 0 0 L 50 45 L 0 80 Z" fill="#4A1C30" opacity="0.95"></path>
+                    <!-- Right flap -->
+                    <path d="M 100 0 L 50 45 L 100 80 Z" fill="#4A1C30" opacity="0.95"></path>
+                    <!-- Bottom flap -->
+                    <path d="M 0 80 L 50 42 L 100 80 Z" fill="#582138" opacity="1"></path>
+                    <!-- Top flap (lid) -->
+                    <path id="topFlap" d="M 0 0 L 50 44 L 100 0 Z" fill="#6A2744" opacity="1" style="transform-origin: top center; transition: transform 0.6s ease;"></path>
+                </svg>
+
+                <!-- Heart Wax Seal Button -->
+                <div id="waxSeal" class="absolute z-30 flex flex-col items-center justify-center transform scale-110 hover:scale-125 transition-transform duration-300">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-rosegold-400 to-rosegold-600 flex items-center justify-center shadow-lg shadow-black/50 border border-rosegold-300/30 animate-pulse">
+                        <i class="fas fa-heart text-gold-300 text-2xl"></i>
+                    </div>
+                    <span class="text-[9px] font-sans font-bold text-gold-300 tracking-[0.2em] mt-2 uppercase drop-shadow-md">KETUK DISINI</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-rose-300/40 text-xs tracking-widest font-sans z-10">THE MAGIC REVEALS UPON OPENING</div>
+    </section>
+
+    <!-- Screen 2: Main Interactive Content (Hidden initially) -->
+    <main id="mainScreen" class="relative z-10 w-full max-w-6xl mx-auto px-4 py-8 flex-1 flex flex-col justify-center items-center gap-12 opacity-0 transform translate-y-10 transition-all duration-1000 pointer-events-none hidden">
+        
+        <!-- Header Section -->
+        <header class="text-center max-w-3xl mt-6">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-gold text-gold-400 text-xs font-semibold uppercase tracking-[0.25em] mb-4">
+                <i class="fas fa-sparkles animate-spin" style="animation-duration: 8s;"></i> 17 Sweet Years of Life <i class="fas fa-sparkles animate-spin" style="animation-duration: 8s;"></i>
+            </div>
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-rosegold-200 via-gold-300 to-rosegold-100 drop-shadow-md py-2">
+                Happy Sweet Seventeen!
+            </h1>
+            <p class="font-script text-3xl sm:text-4xl text-rosegold-400 mt-2 mb-4">"Semoga harimu bersinar laksana permata terindah"</p>
+            <div class="h-[2px] w-32 bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto"></div>
+        </header>
+
+        <!-- Main Responsive Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full items-start">
+            
+            <!-- Column 1 (Left): Birthday Card & Countdown (Lg: 7 cols) -->
+            <div class="lg:col-span-7 space-y-8 w-full">
+                
+                <!-- Elegant Glassmorphic Card -->
+                <div class="glass p-6 md:p-8 rounded-3xl relative overflow-hidden shadow-2xl shadow-purple-950/20 border-t border-l border-rosegold-300/10">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gold-400/10 rounded-full filter blur-2xl"></div>
+                    
+                    <h2 class="font-serif text-2xl md:text-3xl text-gold-300 font-bold mb-4 flex items-center gap-3">
+                        <i class="fas fa-star text-gold-500 animate-pulse"></i> Lembaran Baru Dimulai
+                    </h2>
+                    
+                    <p class="font-sans text-rose-100/80 leading-relaxed text-sm md:text-base mb-6">
+                        Hari ini adalah babak baru yang sangat istimewa. Usia 17 tahun bukan sekadar angka, melainkan pintu gerbang menuju kedewasaan, impian yang lebih tinggi, serta keberanian melukis hidup dengan warna-warni terindah. Jadilah pribadi yang selalu tulus, penuh kasih, bercahaya, dan berani bersinar di manapun kakimu melangkah! 💖✨
+                    </p>
+
+                    <!-- Beautiful Quotes Slider/Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+                        <div class="p-4 bg-rosegold-900/40 rounded-2xl border border-rosegold-400/10 text-center">
+                            <div class="w-10 h-10 rounded-full bg-rosegold-500/20 flex items-center justify-center mx-auto mb-3 text-rosegold-300">
+                                <i class="fas fa-wand-magic-sparkles"></i>
+                            </div>
+                            <h4 class="font-serif text-gold-300 text-sm font-semibold mb-1">Impian Indah</h4>
+                            <p class="text-[11px] text-rose-200/60 leading-relaxed">Terbanglah tinggi menggapai bintang kejora mimpimu.</p>
+                        </div>
+                        <div class="p-4 bg-rosegold-900/40 rounded-2xl border border-rosegold-400/10 text-center">
+                            <div class="w-10 h-10 rounded-full bg-gold-500/20 flex items-center justify-center mx-auto mb-3 text-gold-300">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h4 class="font-serif text-gold-300 text-sm font-semibold mb-1">Penuh Cinta</h4>
+                            <p class="text-[11px] text-rose-200/60 leading-relaxed">Semoga setiap hari dikelilingi kasih tulus tiada tara.</p>
+                        </div>
+                        <div class="p-4 bg-rosegold-900/40 rounded-2xl border border-rosegold-400/10 text-center">
+                            <div class="w-10 h-10 rounded-full bg-rosegold-500/20 flex items-center justify-center mx-auto mb-3 text-rosegold-300">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <h4 class="font-serif text-gold-300 text-sm font-semibold mb-1">Bahagia Abadi</h4>
+                            <p class="text-[11px] text-rose-200/60 leading-relaxed">Menjadi berharga layaknya mutiara terbaik di lautan.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Birthday Cake Card -->
+                <div class="glass-gold p-6 md:p-8 rounded-3xl relative overflow-hidden shadow-2xl border-t border-l border-gold-400/10 flex flex-col items-center">
+                    <h3 class="font-serif text-xl md:text-2xl text-gold-300 font-bold mb-2 text-center flex items-center gap-2">
+                        <i class="fas fa-birthday-cake text-rosegold-400"></i> Tiup Lilin Impianmu!
+                    </h3>
+                    <p class="font-sans text-xs md:text-sm text-rose-200/60 text-center mb-6 max-w-md">
+                        Klik pada lilin di bawah untuk "meniup" nyalanya, buatlah permohonan tulus, dan saksikan keajaiban pesta dimulai!
+                    </p>
+
+                    <!-- Elegant CSS Birthday Cake -->
+                    <div class="relative w-72 h-72 flex flex-col items-center justify-end select-none mt-2">
+                        
+                        <!-- 17 Golden/Pink Candles -->
+                        <div class="absolute bottom-[160px] flex justify-center items-end gap-1.5 z-20 w-full" id="candlesContainer">
+                            <!-- Generation via JS loop or hardcoded 17 styled candles for absolute stability -->
+                            <!-- Candle 1 -->
+                            <div class="candle relative w-1.5 h-12 bg-gradient-to-t from-rosegold-400 to-gold-300 rounded-full cursor-pointer transition-all duration-300 hover:scale-115" onclick="extinguishCandle(this)">
+                                <div class="flame absolute -top-5 left-1/2 -translate-x-1/2 w-3 h-5 bg-gradient-to-b from-yellow-300 via-orange-400 to-transparent rounded-full pointer-events-none"></div>
+                            </div>
+                            <!-- Candle 2 -->
+                            <div class="candle relative w-1.5 h-12 bg-gradient-to-t from-rosegold-500 to-gold-200 rounded-full cursor-pointer transition-all duration-300 hover:scale-115" onclick="extinguishCandle(this)">
+                                <div class="flame absolute -top-5 left-1/2 -translate-x-1/2 w-3 h-5 bg-gradient-to-b from-yellow-300 via-orange-400 to-transparent rounded-full pointer-events-none" style="animation-delay: 0.1s"></div>
+                            </div>
+                            <!-- Candle 3 (Center Tall) -->
+                            <div class="candle relative w-2 h-14 bg-gradient-to-t from-gold-500 to-rosegold-200 rounded-full cursor-pointer transition-all duration-300 hover:scale-115" onclick="extinguishCandle(this)">
+                                <div class="flame absolute -top-5 left-1/2 -translate-x-1/2 w-3.5 h-5.5 bg-gradient-to-b from-yellow-200 via-orange-500 to-transparent rounded-full pointer-events-none" style="animation-delay: 0.2s"></div>
+                            </div>
+                            <!-- Candle 4 -->
+                            <div class="candle relative w-1.5 h-12 bg-gradient-to-t from-rosegold-500 to-gold-200 rounded-full cursor-pointer transition-all duration-300 hover:scale-115" onclick="extinguishCandle(this)">
+                                <div class="flame absolute -top-5 left-1/2 -translate-x-1/2 w-3 h-5 bg-gradient-to-b from-yellow-300 via-orange-400 to-transparent rounded-full pointer-events-none" style="animation-delay: 0.3s"></div>
+                            </div>
+                            <!-- Candle 5 -->
+                            <div class="candle relative w-1.5 h-12 bg-gradient-to-t from-rosegold-400 to-gold-300 rounded-full cursor-pointer transition-all duration-300 hover:scale-115" onclick="extinguishCandle(this)">
+                                <div class="flame absolute -top-5 left-1/2 -translate-x-1/2 w-3 h-5 bg-gradient-to-b from-yellow-300 via-orange-400 to-transparent rounded-full pointer-events-none" style="animation-delay: 0.4s"></div>
+                            </div>
+                        </div>
+
+                        <!-- 3-Tier Luxury Rose Gold Cake Visuals -->
+                        <!-- Tier 3 (Top) -->
+                        <div class="w-40 h-12 bg-gradient-to-r from-rosegold-400 to-rosegold-500 rounded-t-lg shadow-md border-b-2 border-rosegold-300/30 z-10 flex items-center justify-center relative">
+                            <div class="absolute -bottom-1 inset-x-0 h-2 bg-[#FCF6EB] opacity-60 rounded-full"></div>
+                            <span class="font-serif font-bold text-xs tracking-widest text-royal-950 uppercase opacity-70">17 SWEET</span>
+                        </div>
+                        <!-- Tier 2 (Middle) -->
+                        <div class="w-56 h-16 bg-gradient-to-r from-[#592237] to-[#8C3857] rounded-t-md shadow-lg border-b-2 border-rosegold-400/20 z-10 flex items-center justify-center relative">
+                            <div class="absolute -bottom-1 inset-x-0 h-3 bg-[#FCF6EB] opacity-50 rounded-full"></div>
+                            <span class="font-serif font-semibold text-xs tracking-[0.2em] text-gold-300 uppercase">CELEBRATION</span>
+                        </div>
+                        <!-- Tier 1 (Base/Bottom) -->
+                        <div class="w-64 h-20 bg-gradient-to-r from-[#421727] to-[#60213A] rounded-t-sm shadow-xl z-10 flex items-center justify-center relative">
+                            <div class="absolute -bottom-1 inset-x-0 h-3 bg-[#FCF6EB] opacity-40 rounded-full"></div>
+                            <!-- Swirly decor pattern -->
+                            <span class="font-script text-2xl text-gold-200">Glow gracefully</span>
+                        </div>
+                        <!-- Cake Stand Plate -->
+                        <div class="w-72 h-4 bg-gradient-to-r from-gold-300 via-gold-400 to-gold-300 rounded-full shadow-2xl shadow-black/60 z-10"></div>
+                        <div class="w-32 h-6 bg-gradient-to-b from-gold-400 to-gold-600 rounded-b-xl z-0 shadow-lg"></div>
+                    </div>
+
+                    <!-- Reset Candles Button -->
+                    <button onclick="resetCandles()" class="mt-6 text-xs text-gold-400/80 hover:text-gold-300 border border-gold-500/30 px-4 py-2 rounded-full hover:bg-gold-500/10 transition-all flex items-center gap-2">
+                        <i class="fas fa-redo text-[10px]"></i> Nyalakan Ulang Lilin
+                    </button>
+                </div>
+            </div>
+
+            <!-- Column 2 (Right): Interactive Wishes Wall (Lg: 5 cols) -->
+            <div class="lg:col-span-5 space-y-8 w-full">
+                
+                <!-- Wish Submission Form -->
+                <div class="glass p-6 md:p-8 rounded-3xl relative overflow-hidden shadow-2xl border-t border-l border-rosegold-300/10">
+                    <h3 class="font-serif text-xl md:text-2xl text-rosegold-300 font-bold mb-2 flex items-center gap-2">
+                        <i class="fas fa-feather-alt text-gold-400"></i> Kirim Harapanmu
+                    </h3>
+                    <p class="font-sans text-xs text-rose-200/60 mb-6">Tuliskan doa terbaikmu untuk mengukir senyuman indah di hari yang istimewa ini.</p>
+                    
+                    <form id="wishForm" onsubmit="handleWishSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold tracking-wider text-gold-400/90 uppercase mb-2" for="senderName">Nama Kamu</label>
+                            <input type="text" id="senderName" required placeholder="Contoh: Sahabat Terbaikmu ✨" 
+                                class="w-full bg-[#1A0A1D] border border-rosegold-400/20 rounded-xl px-4 py-3 text-rose-100 text-sm focus:outline-none focus:ring-1 focus:ring-rosegold-400 transition-all placeholder:text-rose-200/30">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold tracking-wider text-gold-400/90 uppercase mb-2" for="senderRelation">Hubungan</label>
+                            <select id="senderRelation" 
+                                class="w-full bg-[#1A0A1D] border border-rosegold-400/20 rounded-xl px-4 py-3 text-rose-200 text-sm focus:outline-none focus:ring-1 focus:ring-rosegold-400 transition-all">
+                                <option class="bg-royal-950" value="Sahabat">Sahabat</option>
+                                <option class="bg-royal-950" value="Keluarga">Keluarga</option>
+                                <option class="bg-royal-950" value="Kakak/Adik">Kakak/Adik</option>
+                                <option class="bg-royal-950" value="Pengagum Rahasia">Pengagum Rahasia 🤫</option>
+                                <option class="bg-royal-950" value="Teman Sekolah">Teman Sekolah</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold tracking-wider text-gold-400/90 uppercase mb-2" for="wishText">Ucapan / Doa</label>
+                            <textarea id="wishText" required rows="4" placeholder="Semoga kamu tumbuh dewasa menjadi orang yang selalu sukses, bahagia, dan selalu menyinari dunia sekitarmu..." 
+                                class="w-full bg-[#1A0A1D] border border-rosegold-400/20 rounded-xl p-4 text-rose-100 text-sm focus:outline-none focus:ring-1 focus:ring-rosegold-400 transition-all placeholder:text-rose-200/30 resize-none"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-gradient-to-r from-rosegold-500 to-rosegold-600 hover:from-rosegold-400 hover:to-rosegold-500 text-white font-semibold font-sans text-sm tracking-wider py-3.5 px-6 rounded-xl transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
+                            <i class="fas fa-paper-plane text-xs"></i> Kirim Doa Terbaik
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Wishes Wall Board display -->
+                <div class="glass-gold p-6 rounded-3xl relative overflow-hidden shadow-2xl border border-gold-400/10">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-serif text-lg text-gold-300 font-bold flex items-center gap-2">
+                            <i class="fas fa-comments text-rosegold-400"></i> Dinding Doa Terindah
+                        </h3>
+                        <span class="text-[10px] tracking-widest text-rose-200/50 uppercase" id="wishCount">0 Kiriman</span>
+                    </div>
+
+                    <!-- Scrollable Wall with smooth fading masks -->
+                    <div class="relative max-h-96 overflow-y-auto pr-2 space-y-4" id="wishesWall">
+                        <!-- Dynamic wishes cards injected here by JS -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Section inside Main Screen -->
+        <footer class="w-full border-t border-rosegold-400/10 pt-8 pb-12 text-center text-xs text-rose-200/40 font-sans tracking-wide">
+            Dibuat penuh dengan cinta & keajaiban untuk hari terbaikmu • &copy; 2026 Sweet 17th. All Rights Reserved.
+        </footer>
+    </main>
+
+    <!-- Global alert system container (No-Alert Policy compliant) -->
+    <div id="customToast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 transform translate-y-16 opacity-0 scale-95 transition-all duration-300 bg-gradient-to-r from-rosegold-600 to-rosegold-500 text-white text-xs font-semibold tracking-wider uppercase px-6 py-3 rounded-full shadow-2xl shadow-black border border-rosegold-400/30 flex items-center gap-2 pointer-events-none">
+        <i class="fas fa-sparkles text-gold-300"></i>
+        <span id="toastMessage">Semoga semua harapan baikmu terkabul!</span>
+    </div>
+
+    <!-- Sound and Particle Scripting -->
+    <script>
+        // Particle Background & Confetti implementation using Canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+        let confettis = [];
+        let animationFrameId = null;
+
+        // Custom Resize Handler
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Particle Class for background twinkle
+        class BackgroundParticle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedY = Math.random() * 0.3 + 0.1;
+                this.speedX = (Math.random() - 0.5) * 0.2;
+                this.opacity = Math.random() * 0.8 + 0.2;
+                this.pulseSpeed = Math.random() * 0.02 + 0.01;
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                this.opacity += this.pulseSpeed;
+
+                if (this.opacity > 1 || this.opacity < 0.2) {
+                    this.pulseSpeed = -this.pulseSpeed;
+                }
+
+                if (this.y < 0) {
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
+                }
+                if (this.x < 0 || this.x > canvas.width) {
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(224, 122, 143, ${this.opacity})`;
+                ctx.shadowBlur = this.size * 3;
+                ctx.shadowColor = '#B76E79';
+                ctx.fill();
+                ctx.shadowBlur = 0; // Reset shadow for efficiency
+            }
+        }
+
+        // Confetti Particle Class for blowout moments
+        class ConfettiParticle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 8 + 4;
+                this.speedX = (Math.random() - 0.5) * 12;
+                this.speedY = Math.random() * -12 - 4;
+                this.gravity = 0.3;
+                this.color = `hsl(${Math.random() * 360}, 85%, 65%)`;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 10;
+                this.opacity = 1;
+            }
+
+            update() {
+                this.speedY += this.gravity;
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+                this.opacity -= 0.012;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.beginPath();
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        // Initialize Background Stars/Particles
+        function initBackgroundParticles() {
+            particles = [];
+            const count = Math.min(window.innerWidth / 15, 80);
+            for (let i = 0; i < count; i++) {
+                particles.push(new BackgroundParticle());
+            }
+        }
+        initBackgroundParticles();
+
+        // Main Animation Loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Background sparkle updates
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Confetti updates
+            for (let i = confettis.length - 1; i >= 0; i--) {
+                const c = confettis[i];
+                c.update();
+                c.draw();
+                if (c.opacity <= 0 || c.y > canvas.height) {
+                    confettis.splice(i, 1);
+                }
+            }
+
+            animationFrameId = requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Blast Confetti Function
+        function triggerConfetti(x, y) {
+            const count = 100;
+            for (let i = 0; i < count; i++) {
+                confettis.push(new ConfettiParticle(x, y));
+            }
+        }
+
+        // Synthesized Music Box Lullaby to bypass external file failure issues
+        class PremiumMusicBox {
+            constructor() {
+                this.ctx = null;
+                this.isPlaying = false;
+                this.noteIndex = 0;
+                this.tempo = 320; // Time in ms per eighth note
+                
+                // Classic Soft Birthday / Celebration Melody Sequence (Nostalgic arpeggios & chords)
+                // Format: [note_name, octave, duration_multiplier]
+                this.melody = [
+                    ['G', 4, 1], ['G', 4, 1], ['A', 4, 2], ['G', 4, 2], ['C', 5, 2], ['B', 4, 4],
+                    ['G', 4, 1], ['G', 4, 1], ['A', 4, 2], ['G', 4, 2], ['D', 5, 2], ['C', 5, 4],
+                    ['G', 4, 1], ['G', 4, 1], ['G', 5, 2], ['E', 5, 2], ['C', 5, 2], ['B', 4, 2], ['A', 4, 4],
+                    ['F', 5, 1], ['F', 5, 1], ['E', 5, 2], ['C', 5, 2], ['D', 5, 2], ['C', 5, 6]
+                ];
+                
+                // Supporting bass harmonic sequence
+                this.bass = [
+                    ['C', 3, 4], ['G', 3, 4], ['C', 3, 4], ['F', 3, 4],
+                    ['C', 3, 4], ['G', 3, 4], ['C', 3, 4], ['G', 3, 4],
+                    ['C', 3, 4], ['E', 3, 4], ['F', 3, 4], ['C', 3, 4],
+                    ['F', 3, 4], ['C', 3, 4], ['G', 3, 4], ['C', 3, 6]
+                ];
+            }
+
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+
+            getFrequency(note, octave) {
+                const notes = {
+                    'C': 16.35, 'C#': 17.32, 'D': 18.35, 'D#': 19.45, 'E': 20.60, 'F': 21.83,
+                    'F#': 23.12, 'G': 24.50, 'G#': 25.96, 'A': 27.50, 'A#': 29.14, 'B': 30.87
+                };
+                return notes[note] * Math.pow(2, octave);
+            }
+
+            playMelodyNote(noteInfo) {
+                if (!this.isPlaying) return;
+
+                const [note, octave, duration] = noteInfo;
+                const freq = this.getFrequency(note, octave);
+                const durationSeconds = (duration * this.tempo) / 1000;
+
+                // Create oscillator and gain node (synthesizing a crystal-clear music box comb sound)
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+
+                // Sine wave combined with slight triangle harmonics gives it that warm bell-like chime
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+                // Music Box decay characteristics (quick attack, long ringing release)
+                gain.gain.setValueAtTime(0, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.3, this.ctx.currentTime + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + durationSeconds * 1.5);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                osc.start();
+                osc.stop(this.ctx.currentTime + durationSeconds * 2);
+            }
+
+            playBassNote(noteIndex) {
+                if (!this.isPlaying) return;
+
+                const bassInfo = this.bass[noteIndex % this.bass.length];
+                const [note, octave, duration] = bassInfo;
+                const freq = this.getFrequency(note, octave);
+                const durationSeconds = (duration * this.tempo) / 1000;
+
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+
+                osc.type = 'sine'; // Pure warm low-end tone
+                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+                gain.gain.setValueAtTime(0, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.12, this.ctx.currentTime + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + durationSeconds * 1.2);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                osc.start();
+                osc.stop(this.ctx.currentTime + durationSeconds * 2);
+            }
+
+            tick() {
+                if (!this.isPlaying) return;
+
+                const currentNote = this.melody[this.noteIndex];
+                this.playMelodyNote(currentNote);
+
+                // Play bass occasionally to keep the rhythm full and magical
+                if (this.noteIndex % 2 === 0) {
+                    this.playBassNote(Math.floor(this.noteIndex / 2));
+                }
+
+                const durationMultiplier = currentNote[2];
+                
+                this.noteIndex = (this.noteIndex + 1) % this.melody.length;
+
+                // Schedule next note precisely based on note duration
+                setTimeout(() => this.tick(), this.tempo * durationMultiplier);
+            }
+
+            start() {
+                this.init();
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+                this.isPlaying = true;
+                this.noteIndex = 0;
+                this.tick();
+            }
+
+            stop() {
+                this.isPlaying = false;
+            }
+        }
+
+        const musicBox = new PremiumMusicBox();
+
+        // Toast Alert System (Compliant replacement for window.alert)
+        function showToast(message) {
+            const toast = document.getElementById('customToast');
+            const toastMsg = document.getElementById('toastMessage');
+            toastMsg.innerText = message;
+            
+            // Pop the toast up
+            toast.className = toast.className.replace('opacity-0 scale-95 translate-y-16', 'opacity-100 scale-100 translate-y-0');
+            
+            setTimeout(() => {
+                toast.className = toast.className.replace('opacity-100 scale-100 translate-y-0', 'opacity-0 scale-95 translate-y-16');
+            }, 4000);
+        }
+
+        // Action when Wax Seal of Envelope is Clicked
+        function openEnvelope() {
+            const topFlap = document.getElementById('topFlap');
+            const innerLetter = document.getElementById('innerLetter');
+            const waxSeal = document.getElementById('waxSeal');
+            const envelopeFlaps = document.getElementById('envelopeFlaps');
+            
+            // Transition styles
+            topFlap.style.transform = "rotateX(180deg)";
+            topFlap.style.filter = "brightness(0.7)";
+            waxSeal.style.opacity = "0";
+            waxSeal.style.pointerEvents = "none";
+
+            setTimeout(() => {
+                innerLetter.style.opacity = "1";
+                innerLetter.style.transform = "translateY(-120px) scale(1.08)";
+            }, 600);
+
+            // Audio Activation
+            try {
+                musicBox.start();
+                document.getElementById('audioControls').classList.remove('hidden');
+            } catch(e) {
+                console.log("Audio initialization delayed due to user interactions.");
+            }
+
+            // Slide out to the Main Birthday Celebration Dashboard
+            setTimeout(() => {
+                const envelopeScreen = document.getElementById('envelopeScreen');
+                const mainScreen = document.getElementById('mainScreen');
+
+                envelopeScreen.style.opacity = "0";
+                envelopeScreen.style.pointerEvents = "none";
+                
+                mainScreen.classList.remove('hidden');
+                setTimeout(() => {
+                    mainScreen.style.opacity = "1";
+                    mainScreen.style.transform = "translateY(0)";
+                    mainScreen.style.pointerEvents = "auto";
+                    triggerConfetti(window.innerWidth / 2, window.innerHeight / 2);
+                    showToast("✨ Selamat datang di pesta kejutan Sweet 17! ✨");
+                }, 100);
+
+            }, 2500);
+        }
+
+        // Toggle Background Theme Music
+        const toggleMusicBtn = document.getElementById('toggleMusicBtn');
+        const musicIcon = document.getElementById('musicIcon');
+        
+        toggleMusicBtn.addEventListener('click', () => {
+            if (musicBox.isPlaying) {
+                musicBox.stop();
+                musicIcon.className = "fas fa-volume-mute text-lg";
+                showToast("Musik Latar Dinonaktifkan 🎵");
+            } else {
+                musicBox.start();
+                musicIcon.className = "fas fa-volume-up text-lg";
+                showToast("Alunan Melodi Menemani Harimu ✨");
+            }
+        });
+
+        // Birthday Cake Candle Extinguisher Mechanics
+        let activeCandles = 5; // Matches the SVG candles initialized
+
+        function extinguishCandle(candleElement) {
+            const flame = candleElement.querySelector('.flame');
+            if (flame && flame.style.display !== 'none') {
+                flame.style.display = 'none';
+                activeCandles--;
+                
+                // Audio Feedback
+                playChimeSound();
+                
+                // Explode localized sparkles
+                const rect = candleElement.getBoundingClientRect();
+                triggerConfetti(rect.left + rect.width/2, rect.top);
+
+                if (activeCandles === 0) {
+                    // Full blown grand finale celebration!
+                    setTimeout(() => {
+                        triggerConfetti(window.innerWidth / 4, window.innerHeight * 0.4);
+                        triggerConfetti(window.innerWidth * 3 / 4, window.innerHeight * 0.4);
+                        triggerConfetti(window.innerWidth / 2, window.innerHeight / 2);
+                        showToast("🎉 MAKE A WISH! Semua lilin padam, semoga mimpimu terwujud nyata! 🎉");
+                    }, 450);
+                }
+            }
+        }
+
+        function resetCandles() {
+            const flames = document.querySelectorAll('.candle .flame');
+            flames.forEach(flame => {
+                flame.style.display = 'block';
+            });
+            activeCandles = flames.length;
+            showToast("🕯️ Lilin-lilin impian telah dinyalakan kembali!");
+        }
+
+        // Interactive Synthesized sound effect for blow-out click
+        function playChimeSound() {
+            try {
+                const audioCtx = musicBox.ctx || new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Pitch A5
+                osc.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.15); // Fast sweep up
+                
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.25);
+            } catch (e) {
+                // AudioContext was not allowed to start
+            }
+        }
+
+        // List of Initial Beautiful Wishes
+        const defaultWishes = [
+            { name: "Bunda Tercinta", relation: "Keluarga", text: "Selamat ulang tahun putri kecilku yang kini menjadi remaja dewasa yang cantik luar dalam. Selamanya menjadi penyejuk hati keluarga ya sayang." },
+            { name: "Ahn Geonho", relation: "Sahabat", text: "Happy Sweet Seventeen, bestt! Semoga langkahmu ke depan makin mantap, selalu ceria, dan terus gila-gilaan berkreasi bareng kita! Let's party!" },
+            { name: "kim ryul", relation: "Teman Sekolah", text: "Happy sweet 17th birthday! 🎉 Makin pinter, makin kece, dan semoga lulus ujian dengan nilai tertinggi impianmu tercapai semua!" }
+        ];
+
+        // Load Wishes
+        function loadWishes() {
+            const wishesWall = document.getElementById('wishesWall');
+            const wishCount = document.getElementById('wishCount');
+            
+            // Get from Local Storage or default
+            let storedWishes = JSON.parse(localStorage.getItem('sweet17_wishes')) || defaultWishes;
+            
+            wishesWall.innerHTML = '';
+            wishCount.innerText = `${storedWishes.length} Kiriman`;
+
+            storedWishes.forEach(wish => {
+                const card = document.createElement('div');
+                card.className = "p-4 rounded-2xl bg-royal-900/60 border border-rosegold-400/15 relative overflow-hidden transition-all duration-300 hover:border-rosegold-400/30 hover:scale-[1.01] shadow-md shadow-black/10";
+                
+                // Color badges according to relation
+                let relationColor = "bg-rosegold-500/20 text-rosegold-300";
+                if (wish.relation === "Keluarga") relationColor = "bg-gold-500/20 text-gold-300";
+                if (wish.relation === "Pengagum Rahasia") relationColor = "bg-purple-500/20 text-purple-300";
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-serif text-sm font-semibold text-gold-200 tracking-wide">${wish.name}</span>
+                        <span class="text-[9px] px-2.5 py-0.5 rounded-full ${relationColor} font-sans font-semibold uppercase tracking-wider">${wish.relation}</span>
+                    </div>
+                    <p class="font-sans text-xs text-rose-100/70 leading-relaxed italic">"${wish.text}"</p>
+                `;
+                wishesWall.insertBefore(card, wishesWall.firstChild);
+            });
+        }
+
+        // Handle Submission of New Wishes
+        function handleWishSubmit(event) {
+            event.preventDefault();
+            
+            const nameInput = document.getElementById('senderName');
+            const relationInput = document.getElementById('senderRelation');
+            const textInput = document.getElementById('wishText');
+
+            const newWish = {
+                name: nameInput.value.trim(),
+                relation: relationInput.value,
+                text: textInput.value.trim()
+            };
+
+            let storedWishes = JSON.parse(localStorage.getItem('sweet17_wishes')) || defaultWishes;
+            storedWishes.push(newWish);
+            localStorage.setItem('sweet17_wishes', JSON.stringify(storedWishes));
+
+            // Reload UI
+            loadWishes();
+
+            // Success feedback
+            triggerConfetti(window.innerWidth * 0.8, window.innerHeight * 0.6);
+            showToast("💌 Doa tulismu telah diabadikan di Dinding Doa!");
+
+            // Reset inputs
+            nameInput.value = '';
+            textInput.value = '';
+        }
+
+        // Initial Load on Page Startup
+        window.onload = function() {
+            loadWishes();
+        };
+    </script>
+</body>
+</html>
